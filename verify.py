@@ -3,12 +3,14 @@
 
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 PYTHON = sys.executable
+ENV = {**os.environ, "PYTHONPATH": str(ROOT / "src") + os.pathsep + os.environ.get("PYTHONPATH", "")}
 SLANGUAGE_BIN = Path("/Library/Frameworks/Python.framework/Versions/3.13/bin/slanguage")
 
 
@@ -25,6 +27,7 @@ def run_cmd(name: str, cmd: list[str], *, expect_code: int = 0, expect_in: str |
         cwd=ROOT,
         capture_output=True,
         text=True,
+        env=ENV,
     )
     output = (result.stdout or "") + (result.stderr or "")
     ok = result.returncode == expect_code
@@ -85,6 +88,19 @@ def main() -> int:
                 "rt=build(); assert get_constructs(rt); assert get_categories(); print('bootstrap ok')",
             ],
             expect_in="bootstrap ok",
+        )
+    )
+    checks.append(
+        run_cmd(
+            "structured command",
+            [
+                PYTHON,
+                "-c",
+                "from slanguage.bootstrap import build; "
+                "rt=build(); out=rt.handle('spy scan 37.7 -122.4'); "
+                "assert 'scan ARRIVED' in out; print('structured ok')",
+            ],
+            expect_in="structured ok",
         )
     )
     checks.append(
