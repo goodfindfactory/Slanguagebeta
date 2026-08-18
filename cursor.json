@@ -1,0 +1,16 @@
+{
+  "name": "SlanguageOS",
+  "description": "Mode-based runtime with vault and translator.",
+  "scripts": {
+    "run": "python3 run.py",
+    "run:diva": "python3 run.py --mode=diva",
+    "run:spy": "python3 run.py --mode=spy",
+    "run:ponder": "python3 run.py --mode=ponder",
+    "gui": "python3 run_gui.py",
+    "terrain": "python3 run_terrain.py",
+    "demo": "python3 examples/demo.py",
+    "test": "python3 run_tests.py",
+    "verify": "python3 verify.py",
+    "install": "pip3 install -e ."
+  }
+}
