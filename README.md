@@ -1,2 +1,2 @@
-# Slanguagebeta
+# Slanguageos
 beta
